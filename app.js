@@ -30,14 +30,14 @@ setTimeout(() => {
   animation.style.pointerEvents = "none";
 }, 2500);
 
-//讓整個網站的ENTER KEY都無法使用
+// 讓整個網站的ENTER KEY都無法使用
 window.addEventListener("keypress", (e) => {
   if (e.key == "Enter") {
     e.preventDefault();
   }
 });
 
-//讓防止FROM內部的BUTTON交出表單
+// 防止FORM內部的BUTTON交出表單
 let allButtons = document.querySelectorAll("button");
 allButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
@@ -45,16 +45,16 @@ allButtons.forEach((button) => {
   });
 });
 
-//選擇select內的OPTION之後，要改變相對應的顏色
-let allSelects = document.querySelectorAll("select");
+// 選擇select內的OPTION之後，要改變相對應的顏色
+let allSelects = document.querySelectorAll("select"); // 靜態NodeList
 allSelects.forEach((select) => {
   select.addEventListener("change", (e) => {
     setGPA();
-    changeColor(e.target); //e.target就是<select>
+    changeColor(e.target); // e.target就是<select>
   });
 });
 
-//改變 credit 之後， GPA也要更新
+// 改變credit之後，GPA也要更新
 let credits = document.querySelectorAll(".class-credit");
 credits.forEach((credit) => {
   credit.addEventListener("change", () => {
@@ -67,23 +67,23 @@ function changeColor(target) {
     target.style.backgroundColor = "lightgreen";
     target.style.color = "black";
   } else if (
-    target.value == "B+" ||
     target.value == "B" ||
-    target.value == "B-"
+    target.value == "B-" ||
+    target.value == "B+"
   ) {
     target.style.backgroundColor = "yellow";
     target.style.color = "black";
   } else if (
-    target.value == "C+" ||
     target.value == "C" ||
-    target.value == "C-"
+    target.value == "C-" ||
+    target.value == "C+"
   ) {
     target.style.backgroundColor = "orange";
     target.style.color = "black";
   } else if (
-    target.value == "D+" ||
     target.value == "D" ||
-    target.value == "D-"
+    target.value == "D-" ||
+    target.value == "D+"
   ) {
     target.style.backgroundColor = "red";
     target.style.color = "black";
@@ -129,9 +129,9 @@ function convertor(grade) {
 function setGPA() {
   let formLength = document.querySelectorAll("form").length;
   let credits = document.querySelectorAll(".class-credit");
-  let select = document.querySelectorAll("select");
-  let sum = 0; //GPA計算分子用
-  let creditSum = 0; //GPA計算分母用
+  let selects = document.querySelectorAll("select");
+  let sum = 0; // GPA計算用分子
+  let creditSum = 0; // GPA計算用分母
 
   for (let i = 0; i < credits.length; i++) {
     if (!isNaN(credits[i].valueAsNumber)) {
@@ -141,7 +141,7 @@ function setGPA() {
 
   for (let i = 0; i < formLength; i++) {
     if (!isNaN(credits[i].valueAsNumber)) {
-      sum += credits[i].valueAsNumber * convertor(select[i].value);
+      sum += credits[i].valueAsNumber * convertor(selects[i].value);
     }
   }
 
@@ -160,7 +160,7 @@ addButton.addEventListener("click", () => {
   let newDiv = document.createElement("div");
   newDiv.classList.add("grader");
 
-  //製作五個小元素
+  // 製作五個小元素
   let newInput1 = document.createElement("input");
   newInput1.setAttribute("type", "text");
   newInput1.setAttribute("list", "opt");
@@ -299,26 +299,26 @@ allTrash.forEach((trash) => {
   });
 });
 
-//排序演算法
-
+// 排序演算法
 let btn1 = document.querySelector(".sort-descending");
 let btn2 = document.querySelector(".sort-ascending");
 btn1.addEventListener("click", () => {
-  handleSorting("descending"); //大到小
+  handleSorting("descending"); // 大到小
 });
 btn2.addEventListener("click", () => {
-  handleSorting("ascending"); //小到大
+  handleSorting("ascending"); // 小到大
 });
 
 function handleSorting(direction) {
-  let grades = document.querySelectorAll("div.grade");
+  let graders = document.querySelectorAll("div.grader");
   let objectArray = [];
 
-  for (let i = 0; i < grades.length; i++) {
-    let class_name = grades[i].children[0].value; //class category
-    let class_number = grades[i].children[1].value; //class number
-    let class_credit = grades[i].children[2].value;
-    let class_grade = grades[i].children[3].value;
+  for (let i = 0; i < graders.length; i++) {
+    let class_name = graders[i].children[0].value; // class category
+    let class_number = graders[i].children[1].value; // class number
+    let class_credit = graders[i].children[2].value;
+    let class_grade = graders[i].children[3].value;
+
     if (
       !(
         class_name == "" &&
@@ -337,15 +337,105 @@ function handleSorting(direction) {
     }
   }
 
-  // 取得 object array 後，我們可以把成績 String 換成數字
+  // 取得object array後，我們可以把成績String換成數字
   for (let i = 0; i < objectArray.length; i++) {
-    objectArray[i].class_grade_number = convertor(objectArray.class_grade);
+    objectArray[i].class_grade_number = convertor(objectArray[i].class_grade);
   }
 
   objectArray = mergeSort(objectArray);
   if (direction == "descending") {
     objectArray = objectArray.reverse();
   }
+  // 根據object array的內容，來更新網頁
+  let allInputs = document.querySelector(".all-inputs");
+  allInputs.innerHTML = "";
+
+  for (let i = 0; i < objectArray.length; i++) {
+    allInputs.innerHTML += `<form>
+    <div class="grader">
+        <input
+        type="text"
+        placeholder="class category"
+        class="class-type"
+        list="opt"
+        value=${objectArray[i].class_name}
+        /><!--
+        --><input
+        type="text"
+        placeholder="class number"
+        class="class-number"
+        value=${objectArray[i].class_number}
+        /><!--
+        --><input
+        type="number"
+        placeholder="credits"
+        min="0"
+        max="6"
+        class="class-credit"
+        value=${objectArray[i].class_credit}
+        /><!--
+        --><select name="select" class="select">
+        <option value=""></option>
+        <option value="A">A</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B">B</option>
+        <option value="B-">B-</option>
+        <option value="C+">C+</option>
+        <option value="C">C</option>
+        <option value="C-">C-</option>
+        <option value="D+">D+</option>
+        <option value="D">D</option>
+        <option value="D-">D-</option>
+        <option value="F">F</option></select
+        ><!--
+        --><button class="trash-button">
+        <i class="fas fa-trash"></i>
+        </button>
+    </div>
+    </form>`;
+  }
+
+  // SELECT可直接用JS更改
+  graders = document.querySelectorAll("div.grader");
+  for (let i = 0; i < graders.length; i++) {
+    graders[i].children[3].value = objectArray[i].class_grade;
+  }
+
+  // select事件監聽
+  allSelects = document.querySelectorAll("select");
+  allSelects.forEach((select) => {
+    changeColor(select);
+    select.addEventListener("change", (e) => {
+      setGPA();
+      changeColor(e.target);
+    });
+  });
+
+  // credit事件監聽
+  let allCredits = document.querySelectorAll(".class-credit");
+  allCredits.forEach((credit) => {
+    credit.addEventListener("change", () => {
+      setGPA();
+    });
+  });
+
+  // 垃圾桶
+  let allTrash = document.querySelectorAll(".trash-button");
+  allTrash.forEach((trash) => {
+    trash.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.target.parentElement.parentElement.style.animation =
+        "scaleDown 0.5s ease forwards";
+      e.target.parentElement.parentElement.addEventListener(
+        "animationend",
+        (e) => {
+          e.target.remove();
+          setGPA();
+        }
+      );
+    });
+  });
 }
 
 function merge(a1, a2) {
