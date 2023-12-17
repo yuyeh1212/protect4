@@ -298,3 +298,94 @@ allTrash.forEach((trash) => {
     setGPA();
   });
 });
+
+//排序演算法
+
+let btn1 = document.querySelector(".sort-descending");
+let btn2 = document.querySelector(".sort-ascending");
+btn1.addEventListener("click", () => {
+  handleSorting("descending"); //大到小
+});
+btn2.addEventListener("click", () => {
+  handleSorting("ascending"); //小到大
+});
+
+function handleSorting(direction) {
+  let grades = document.querySelectorAll("div.grade");
+  let objectArray = [];
+
+  for (let i = 0; i < grades.length; i++) {
+    let class_name = grades[i].children[0].value; //class category
+    let class_number = grades[i].children[1].value; //class number
+    let class_credit = grades[i].children[2].value;
+    let class_grade = grades[i].children[3].value;
+    if (
+      !(
+        class_name == "" &&
+        class_number == "" &&
+        class_credit == "" &&
+        class_grade == ""
+      )
+    ) {
+      let class_object = {
+        class_name,
+        class_number,
+        class_credit,
+        class_grade,
+      };
+      objectArray.push(class_object);
+    }
+  }
+
+  // 取得 object array 後，我們可以把成績 String 換成數字
+  for (let i = 0; i < objectArray.length; i++) {
+    objectArray[i].class_grade_number = convertor(objectArray.class_grade);
+  }
+
+  objectArray = mergeSort(objectArray);
+  if (direction == "descending") {
+    objectArray = objectArray.reverse();
+  }
+}
+
+function merge(a1, a2) {
+  let result = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < a1.length && j < a2.length) {
+    if (a1[i].class_grade_number > a2[j].class_grade_number) {
+      result.push(a2[j]);
+      j++;
+    } else {
+      result.push(a1[i]);
+      i++;
+    }
+  }
+
+  while (i < a1.length) {
+    result.push(a1[i]);
+    i++;
+  }
+  while (j < a2.length) {
+    result.push(a2[j]);
+    j++;
+  }
+
+  return result;
+}
+
+function mergeSort(arr) {
+  if (arr.length == 0) {
+    return;
+  }
+
+  if (arr.length == 1) {
+    return arr;
+  } else {
+    let middle = Math.floor(arr.length / 2);
+    let left = arr.slice(0, middle);
+    let right = arr.slice(middle, arr.length);
+    return merge(mergeSort(left), mergeSort(right));
+  }
+}
