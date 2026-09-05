@@ -19,7 +19,7 @@
     />
     <link rel="stylesheet" href="./style/style.css" />
   </head>
-  <body>
+  <body id="top">
     <!--開場動畫-->
     <section class="animation-wrapper">
       <section class="animation">
@@ -32,10 +32,9 @@
 
     <header>
       <nav>
+        <a href="#top" class="logo">GPA Tracker</a>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Grade Analysis</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#records">My Records</a></li>
         </ul>
       </nav>
     </header>
@@ -193,7 +192,7 @@
           <button type="button" class="btn save-btn">儲存本學期</button>
         </div>
 
-        <div class="records">
+        <div class="records" id="records">
           <h2>我的紀錄</h2>
           <ul id="records-list" class="records-list"></ul>
         </div>

@@ -60,6 +60,18 @@ body section.animation-wrapper .slider {
 }
 body header nav {
   box-shadow: 0 8px 6px -6px black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+body header nav a.logo {
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+body header nav a.logo:hover {
+  color: yellow;
 }
 body header nav ul {
   display: flex;
