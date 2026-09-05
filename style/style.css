@@ -47,8 +47,7 @@ body section.animation-wrapper section.animation .hero {
 body section.animation-wrapper section.animation .hero img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 body section.animation-wrapper .slider {
   position: absolute;
@@ -137,6 +136,50 @@ body main section.main-part div.result h2#result-gpa {
   font-size: 3.5rem;
   font-weight: bold;
 }
+body main section.main-part div.save-section {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+}
+body main section.main-part div.save-section input.semester-input {
+  font-size: 1.05rem;
+  padding: 0.5rem;
+  border: 0.25px solid rgb(39, 39, 21);
+  border-radius: 0.25rem;
+  margin: 0.35rem;
+}
+body main section.main-part div.records {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 1.5rem;
+}
+body main section.main-part div.records h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid white;
+  padding-bottom: 0.5rem;
+}
+body main section.main-part div.records ul.records-list li.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #444;
+}
+body main section.main-part div.records ul.records-list li.record-item span.record-label {
+  text-align: left;
+}
+body main section.main-part div.records ul.records-list li.record-item span.record-gpa {
+  font-weight: bold;
+}
+body main section.main-part div.records ul.records-list li.record-item button.record-delete {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+body main section.main-part div.records ul.records-list li.record-item button.record-delete i {
+  color: white;
+  font-size: 1rem;
+}
 
 .remove {
   transform: scale(0);
@@ -169,4 +212,6 @@ body main section.main-part div.result h2#result-gpa {
   66% {
     border-color: yellow;
   }
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*# sourceMappingURL=style.css.map */

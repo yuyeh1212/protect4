@@ -438,6 +438,85 @@ function handleSorting(direction) {
   });
 }
 
+// 學期成績紀錄（localStorage）
+const GPA_RECORDS_KEY = "gpaRecords";
+
+function getGPARecords() {
+  try {
+    return JSON.parse(localStorage.getItem(GPA_RECORDS_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveGPARecords(records) {
+  localStorage.setItem(GPA_RECORDS_KEY, JSON.stringify(records));
+}
+
+function renderGPARecords() {
+  let records = getGPARecords();
+  let list = document.getElementById("records-list");
+  list.innerHTML = "";
+
+  records.forEach((record, index) => {
+    let li = document.createElement("li");
+    li.classList.add("record-item");
+
+    let labelSpan = document.createElement("span");
+    labelSpan.classList.add("record-label");
+    labelSpan.textContent = record.label;
+
+    let gpaSpan = document.createElement("span");
+    gpaSpan.classList.add("record-gpa");
+    gpaSpan.textContent = record.gpa;
+
+    let deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.classList.add("record-delete");
+    deleteButton.dataset.index = index;
+    let trashIcon = document.createElement("i");
+    trashIcon.classList.add("fas", "fa-trash");
+    deleteButton.appendChild(trashIcon);
+
+    li.appendChild(labelSpan);
+    li.appendChild(gpaSpan);
+    li.appendChild(deleteButton);
+    list.appendChild(li);
+  });
+}
+
+let saveButton = document.querySelector(".save-btn");
+saveButton.addEventListener("click", () => {
+  let labelInput = document.getElementById("semester-label");
+  let label = labelInput.value.trim();
+
+  if (!label) {
+    alert("請輸入學期名稱，例如：2026 Spring");
+    return;
+  }
+
+  let gpa = document.getElementById("result-gpa").innerText;
+  let records = getGPARecords();
+  records.unshift({ label, gpa });
+  saveGPARecords(records);
+  renderGPARecords();
+  labelInput.value = "";
+});
+
+document.getElementById("records-list").addEventListener("click", (e) => {
+  let deleteButton = e.target.closest(".record-delete");
+  if (!deleteButton) {
+    return;
+  }
+  let index = Number(deleteButton.dataset.index);
+  let records = getGPARecords();
+  records.splice(index, 1);
+  saveGPARecords(records);
+  renderGPARecords();
+});
+
+renderGPARecords();
+
 function merge(a1, a2) {
   let result = [];
   let i = 0;

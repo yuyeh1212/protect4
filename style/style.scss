@@ -154,6 +154,60 @@ body {
           font-weight: bold;
         }
       }
+
+      div.save-section {
+        display: flex;
+        align-items: center;
+        margin-top: 2rem;
+
+        input.semester-input {
+          font-size: 1.05rem;
+          padding: 0.5rem;
+          border: 0.25px solid rgb(39, 39, 21);
+          border-radius: 0.25rem;
+          margin: 0.35rem;
+        }
+      }
+
+      div.records {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 1.5rem;
+
+        h2 {
+          font-size: 1.5rem;
+          border-bottom: 1px solid white;
+          padding-bottom: 0.5rem;
+        }
+
+        ul.records-list {
+          li.record-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #444;
+
+            span.record-label {
+              text-align: left;
+            }
+
+            span.record-gpa {
+              font-weight: bold;
+            }
+
+            button.record-delete {
+              border: none;
+              background-color: transparent;
+              cursor: pointer;
+              i {
+                color: white;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
